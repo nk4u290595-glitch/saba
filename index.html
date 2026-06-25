@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Saba — A Letter From My Heart 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:#080010;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  overflow-x:hidden;
+  color:#fef3c7;
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='22'%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E") 16 16, pointer;
+  min-height:100vh;
+}
+
+/* ── Aurora ── */
+body::before{
+  content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(120,20,100,.38) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(20,10,90,.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(70,0,50,.22) 0%, transparent 70%);
+  animation:auroraDrift 12s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift{
+  from{filter:hue-rotate(0deg);}
+  to{filter:hue-rotate(20deg);}
+}
+
+/* ── Stars ── */
+#star-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* ── Floating hearts ── */
+.fheart{position:fixed;pointer-events:none;z-index:1;animation:floatUp 8s ease-in forwards;}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(0) rotate(-15deg) scale(.5);}
+  12%{opacity:.9;}
+  75%{opacity:.35;}
+  100%{opacity:0;transform:translateY(-100vh) rotate(30deg) scale(1.4);}
+}
+
+/* ── Screens ── */
+.screen{
+  display:none;min-height:100vh;position:relative;z-index:2;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:50px 22px 70px;text-align:center;
+}
+.screen.active{display:flex;}
+.screen.active > *{animation:fadeSlideIn .65s ease both;}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+.screen.active > *:nth-child(2){animation-delay:.1s;}
+.screen.active > *:nth-child(3){animation-delay:.2s;}
+.screen.active > *:nth-child(4){animation-delay:.3s;}
+.screen.active > *:nth-child(5){animation-delay:.4s;}
+.screen.active > *:nth-child(6){animation-delay:.5s;}
+
+/* ── Fonts ── */
+.dance{font-family:'Dancing Script',cursive;}
+.gold{color:#f9d064;text-shadow:0 0 22px rgba(249,208,100,.45);}
+.pink{color:#f4a8c4;}
+
+/* ═══════════════════════
+   PASSWORD SCREEN
+═══════════════════════ */
+#s-pw{background:transparent;}
+.pw-lock{font-size:64px;display:block;margin-bottom:10px;
+  animation:lockBounce 2s ease-in-out infinite alternate;}
+@keyframes lockBounce{from{transform:scale(1) rotate(-4deg);}to{transform:scale(1.1) rotate(4deg);}
+}
+.pw-title{font-family:'Dancing Script',cursive;font-size:clamp(34px,8vw,58px);
+  color:#f9d064;text-shadow:0 0 40px rgba(249,208,100,.5);margin:10px 0 6px;}
+.pw-hint{font-family:'Dancing Script',cursive;font-size:18px;color:rgba(244,168,196,.7);margin-bottom:36px;}
+
+.pw-box{
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(249,208,100,.3);
+  border-radius:22px;padding:36px 32px;max-width:420px;width:100%;
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 50px rgba(0,0,0,.35),inset 0 0 30px rgba(249,208,100,.03);
+  position:relative;overflow:hidden;
+}
+.pw-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#f9d064,#f4a8c4,#f9d064,transparent);}
+
+.pw-label{font-family:'Dancing Script',cursive;font-size:17px;color:rgba(249,208,100,.6);
+  margin-bottom:18px;letter-spacing:2px;}
+
+.pw-dots{display:flex;justify-content:center;gap:14px;margin-bottom:24px;min-height:24px;}
+.pw-dot{
+  width:14px;height:14px;border-radius:50%;
+  background:rgba(249,208,100,.2);border:1.5px solid rgba(249,208,100,.4);
+  transition:all .3s;
+}
+.pw-dot.filled{background:#f9d064;box-shadow:0 0 12px #f9d064,0 0 24px rgba(249,208,100,.4);}
+
+.pw-input{
+  font-family:'Dancing Script',cursive;font-size:22px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(249,208,100,.28);
+  color:#fef3c7;padding:14px 22px;border-radius:14px;
+  width:100%;text-align:center;letter-spacing:8px;outline:none;
+  transition:border-color .3s,box-shadow .3s;
+  margin-bottom:18px;
+}
+.pw-input:focus{border-color:rgba(249,208,100,.7);box-shadow:0 0 22px rgba(249,208,100,.2);}
+.pw-input::placeholder{letter-spacing:2px;color:rgba(249,208,100,.3);font-size:16px;}
+
+.pw-btn{
+  font-family:'Dancing Script',cursive;font-size:22px;font-weight:700;
+  color:#0d0015;background:linear-gradient(135deg,#f9d064,#f4c430,#f4a8c4);
+  border:none;padding:14px 44px;border-radius:60px;cursor:pointer;
+  box-shadow:0 0 35px rgba(249,208,100,.45);transition:transform .25s,box-shadow .25s;
+  width:100%;margin-bottom:12px;
+}
+.pw-btn:hover{transform:scale(1.04);box-shadow:0 0 55px rgba(249,208,100,.65);}
+
+.pw-error{font-family:'Dancing Script',cursive;font-size:16px;color:#ff8080;
+  min-height:22px;transition:opacity .4s;animation:shake .4s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}75%{transform:translateX(10px);}}
+
+.pw-clue{
+  font-family:'Dancing Script',cursive;font-size:14px;
+  color:rgba(244,168,196,.45);margin-top:18px;
+}
+
+/* ═══════════════════════
+   ENVELOPE SCREEN
+═══════════════════════ */
+.env-kicker{font-family:'Dancing Script',cursive;font-size:14px;
+  color:rgba(249,208,100,.6);letter-spacing:5px;text-transform:uppercase;margin-bottom:14px;}
+.env-name{font-family:'Dancing Script',cursive;font-size:clamp(58px,14vw,92px);
+  color:#f9d064;text-shadow:0 0 60px rgba(249,208,100,.5),0 0 120px rgba(249,208,100,.18);
+  line-height:1;margin-bottom:8px;}
+.env-sub{font-family:'Dancing Script',cursive;font-size:19px;color:rgba(244,168,196,.75);margin-bottom:38px;}
+
+.envelope-wrap{position:relative;margin:0 auto 30px;width:200px;height:145px;cursor:pointer;}
+.envelope-wrap:hover .env-body{filter:drop-shadow(0 0 30px #f9d064cc);}
+.env-body{transition:filter .3s;animation:envFloat 3s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 14px rgba(249,208,100,.4));}
+@keyframes envFloat{from{transform:translateY(0) rotate(-2.5deg);}to{transform:translateY(-12px) rotate(2.5deg);}}
+.env-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:36px;animation:sealPulse 1.3s ease-in-out infinite;pointer-events:none;}
+@keyframes sealPulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.32) rotate(8deg);}}
+
+.open-btn{
+  font-family:'Dancing Script',cursive;font-size:23px;font-weight:700;
+  color:#0d0015;background:linear-gradient(135deg,#f9d064 0%,#f4c430 45%,#f4a8c4 100%);
+  border:none;padding:15px 50px;border-radius:60px;cursor:pointer;
+  box-shadow:0 0 40px rgba(249,208,100,.5),0 4px 22px rgba(0,0,0,.4);
+  transition:transform .25s,box-shadow .25s;animation:btnGlow 2.5s ease-in-out infinite;
+}
+.open-btn:hover{transform:scale(1.08);box-shadow:0 0 65px rgba(249,208,100,.75);}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 40px rgba(249,208,100,.5);}50%{box-shadow:0 0 68px rgba(249,208,100,.82);}}
+
+.code-pill{
+  display:inline-block;font-family:'Courier New',monospace;font-size:13px;
+  color:#7fff80;background:rgba(0,255,80,.07);
+  border:1px solid rgba(0,255,80,.18);border-radius:10px;
+  padding:10px 22px;margin-top:28px;
+}
+
+/* ═══════════════════════
+   CARDS
+═══════════════════════ */
+.card{
+  background:rgba(255,255,255,.046);
+  border:1px solid rgba(249,208,100,.2);
+  border-radius:24px;padding:30px 28px;
+  margin:16px auto;max-width:630px;width:100%;
+  position:relative;overflow:hidden;
+  backdrop-filter:blur(10px);
+  box-shadow:0 8px 40px rgba(0,0,0,.3),inset 0 0 30px rgba(249,208,100,.03);
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#f9d064,#f4a8c4,#f9d064,transparent);}
+.card-rose{border-color:rgba(244,168,196,.28);}
+.card-rose::before{background:linear-gradient(90deg,transparent,#f4a8c4,#f9d064,#f4a8c4,transparent);}
+
+/* ═══════════════════════
+   QUOTE BLOCKS
+═══════════════════════ */
+.quote-block{
+  background:linear-gradient(135deg,rgba(140,30,70,.16),rgba(60,10,80,.18));
+  border:1px solid rgba(244,168,196,.25);
+  border-radius:22px;padding:30px 28px;margin:16px auto;
+  max-width:630px;width:100%;position:relative;overflow:hidden;
+}
+.quote-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#f4a8c4,#f9d064,#f4a8c4,transparent);}
+.quote-block::after{
+  content:'\275D';position:absolute;top:12px;left:16px;
+  font-size:56px;color:rgba(249,208,100,.07);line-height:1;font-family:Georgia,serif;
+}
+.quote-text{
+  font-size:clamp(17px,3.5vw,21px);color:rgba(254,243,199,.93);
+  line-height:2.1;font-style:italic;position:relative;z-index:1;
+}
+.quote-attr{
+  font-family:'Dancing Script',cursive;font-size:14px;
+  color:rgba(249,208,100,.45);margin-top:14px;letter-spacing:1px;
+}
+
+/* ═══════════════════════
+   SCREEN TITLES
+═══════════════════════ */
+.moon-icon{font-size:58px;display:block;margin-bottom:8px;
+  animation:moonSway 4s ease-in-out infinite alternate;}
+@keyframes moonSway{from{transform:translateY(0) rotate(-4deg);}to{transform:translateY(-14px) rotate(4deg);}}
+.main-title{font-family:'Dancing Script',cursive;font-size:clamp(38px,9vw,64px);
+  color:#f9d064;text-shadow:0 0 50px rgba(249,208,100,.5);line-height:1.2;margin:10px 0 8px;}
+.subtitle{font-family:'Dancing Script',cursive;font-size:20px;
+  color:rgba(244,168,196,.75);margin-bottom:26px;}
+
+/* ═══════════════════════
+   ATTRIBUTE GRID
+═══════════════════════ */
+.attr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:18px 0;}
+.attr{
+  background:rgba(249,208,100,.07);border:1px solid rgba(249,208,100,.18);
+  border-radius:16px;padding:18px 8px;transition:transform .3s,background .3s;
+}
+.attr:hover{transform:translateY(-5px);background:rgba(249,208,100,.14);}
+.attr .emoji{font-size:28px;margin-bottom:7px;}
+.attr .lbl{font-family:'Dancing Script',cursive;font-size:14.5px;color:rgba(249,208,100,.88);}
+
+/* ═══════════════════════
+   DIVIDER
+═══════════════════════ */
+.divider{display:flex;align-items:center;gap:14px;margin:20px auto;max-width:520px;width:100%;}
+.divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(249,208,100,.45),transparent);}
+
+/* ═══════════════════════
+   PROGRESS DOTS
+═══════════════════════ */
+.progress{display:flex;gap:11px;justify-content:center;margin:24px 0 8px;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(249,208,100,.18);transition:all .5s;}
+.dot.active{background:#f9d064;box-shadow:0 0 12px #f9d064,0 0 24px rgba(249,208,100,.4);transform:scale(1.28);}
+
+/* ═══════════════════════
+   NEXT BUTTON
+═══════════════════════ */
+.btn-next{
+  font-family:'Dancing Script',cursive;font-size:21px;color:#f9d064;
+  background:transparent;border:1.5px solid rgba(249,208,100,.45);
+  padding:13px 46px;border-radius:60px;cursor:pointer;
+  transition:all .35s;margin-top:16px;position:relative;overflow:hidden;
+}
+.btn-next::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(249,208,100,.14),transparent);transition:left .4s;}
+.btn-next:hover{background:rgba(249,208,100,.1);border-color:#f9d064;box-shadow:0 0 28px rgba(249,208,100,.3);}
+.btn-next:hover::before{left:100%;}
+
+/* ═══════════════════════
+   CODE LINE
+═══════════════════════ */
+.code-line{
+  font-family:'Courier New',monospace;font-size:13px;color:#7fff80;
+  background:rgba(0,255,80,.06);border:1px solid rgba(0,255,80,.15);
+  border-radius:10px;padding:12px 22px;margin:14px auto;
+  max-width:520px;width:100%;text-align:left;line-height:1.8;
+}
+
+/* ═══════════════════════
+   SECTION LABEL
+═══════════════════════ */
+.sec-lbl{font-family:'Dancing Script',cursive;font-size:13px;
+  color:rgba(249,208,100,.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;}
+
+/* ═══════════════════════
+   QUIZ
+═══════════════════════ */
+.question-text{
+  font-size:clamp(20px,4.5vw,29px);color:#fef3c7;
+  line-height:1.8;margin:20px 0 28px;max-width:590px;
+}
+.options{display:flex;flex-direction:column;gap:14px;align-items:center;margin-top:8px;}
+.opt-btn{
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(249,208,100,.3);
+  color:#fef3c7;font-family:'Dancing Script',cursive;font-size:21px;
+  padding:14px 44px;border-radius:60px;cursor:pointer;
+  transition:all .3s;min-width:260px;
+}
+.opt-btn:hover{background:rgba(249,208,100,.16);border-color:#f9d064;
+  box-shadow:0 0 26px rgba(249,208,100,.35);color:#fff;}
+.opt-btn.yes-opt{background:linear-gradient(135deg,rgba(249,208,100,.12),rgba(244,168,196,.12));
+  border-color:rgba(249,208,100,.5);}
+.opt-btn.no-opt{background:rgba(255,60,60,.07);border-color:rgba(255,110,110,.28);color:#ffaaaa;}
+
+/* ═══════════════════════
+   FINAL SCREENS
+═══════════════════════ */
+.ring-icon{font-size:60px;display:block;margin:14px auto;
+  animation:ringDrift 2.5s ease-in-out infinite alternate;}
+@keyframes ringDrift{
+  from{filter:drop-shadow(0 0 10px #f9d064);transform:rotate(-6deg) scale(1);}
+  to{filter:drop-shadow(0 0 32px #f9d064);transform:rotate(6deg) scale(1.09);}
+}
+.final-title{font-family:'Dancing Script',cursive;font-size:clamp(32px,7.5vw,54px);
+  color:#f9d064;text-shadow:0 0 40px rgba(249,208,100,.5);margin:16px 0;}
+.final-text{font-size:clamp(16px,3vw,19px);line-height:2.1;
+  color:rgba(254,243,199,.92);max-width:580px;margin:0 auto;}
+
+/* ═══════════════════════
+   CELEBRATION
+═══════════════════════ */
+#s-yes{background:radial-gradient(ellipse at 50% 40%,#200808 0%,#080010 70%);}
+.celeb-title{font-family:'Dancing Script',cursive;font-size:clamp(44px,10vw,72px);
+  color:#f9d064;text-shadow:0 0 55px #f9d064;margin:20px 0 10px;
+  animation:celebPop 1.6s ease-in-out infinite;}
+@keyframes celebPop{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+
+/* ═══════════════════════
+   HEART ROW
+═══════════════════════ */
+.heart-row{font-size:22px;letter-spacing:7px;margin:18px 0;
+  animation:hrBeat 1.6s ease-in-out infinite;}
+@keyframes hrBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.14);}}
+
+/* ═══════════════════════
+   PUPPY STRIP
+═══════════════════════ */
+.puppy-strip{font-size:32px;margin:16px 0;animation:puppyHop 2s ease-in-out infinite;}
+@keyframes puppyHop{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+
+/* ═══════════════════════
+   SCROLLBAR
+═══════════════════════ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:rgba(249,208,100,.28);border-radius:4px;}
+
+/* ═══════════════════════
+   RESPONSIVE
+═══════════════════════ */
+@media(max-width:480px){
+  .attr-grid{grid-template-columns:repeat(2,1fr);}
+  .opt-btn{min-width:210px;font-size:18px;padding:12px 28px;}
+  .card,.quote-block{padding:22px 16px;}
+  .pw-box{padding:28px 18px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="star-canvas"></canvas>
+<div id="hearts-layer"></div>
+
+<!-- ═══════════════════════════════════
+     PASSWORD SCREEN
+═══════════════════════════════════ -->
+<section class="screen active" id="s-pw">
+  <span class="pw-lock">🔐</span>
+  <h1 class="pw-title">This letter is for someone very special...</h1>
+  <p class="pw-hint">Only one person in the world knows the password. Is that you? 🌙</p>
+
+  <div class="pw-box">
+    <p class="pw-label">✦ Enter the secret password ✦</p>
+
+    <div class="pw-dots" id="pw-dots"></div>
+
+    <input
+      class="pw-input"
+      id="pw-input"
+      type="password"
+      maxlength="4"
+      placeholder="type here..."
+      autocomplete="off"
+      spellcheck="false"
+      oninput="onPwType()"
+      onkeydown="if(event.key==='Enter')checkPw()"
+    />
+
+    <button class="pw-btn" onclick="checkPw()">Open the Letter 💌</button>
+
+    <p class="pw-error" id="pw-error" style="opacity:0;">&nbsp;</p>
+    <p class="pw-clue">Hint: it's the name written on the envelope 💛</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     S1 — ENVELOPE
+═══════════════════════════════════ -->
+<section class="screen" id="s1">
+  <p class="env-kicker">A secret letter has arrived for</p>
+  <h1 class="env-name">Saba ✨</h1>
+  <p class="env-sub">Someone has been quietly keeping a very big secret... 🌙</p>
+
+  <div class="envelope-wrap" onclick="openEnvelope()" title="Open your letter">
+    <svg class="env-body" viewBox="0 0 200 145" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="145">
+      <rect x="2" y="2" width="196" height="141" rx="12" fill="#1a0525" stroke="#f9d064" stroke-width="1.4"/>
+      <path d="M2 2 L100 82 L198 2 Z" fill="#260835" stroke="#f9d064" stroke-width="1.4" stroke-linejoin="round"/>
+      <line x1="2" y1="143" x2="76" y2="70" stroke="rgba(249,208,100,0.3)" stroke-width="1"/>
+      <line x1="198" y1="143" x2="124" y2="70" stroke="rgba(249,208,100,0.3)" stroke-width="1"/>
+      <line x1="30" y1="105" x2="170" y2="105" stroke="rgba(249,208,100,0.08)" stroke-width="1"/>
+      <line x1="45" y1="120" x2="155" y2="120" stroke="rgba(249,208,100,0.05)" stroke-width="1"/>
+    </svg>
+    <div class="env-seal">💌</div>
+  </div>
+
+  <p class="dance" style="font-size:16px;color:rgba(244,168,196,.55);margin-bottom:22px;">Tap the envelope to begin... 🌹</p>
+  <button class="open-btn" onclick="openEnvelope()">Open My Letter 💌</button>
+
+  <div class="code-pill" style="margin-top:30px;">
+    <span style="color:#f9d064;">const</span> secret = <span style="color:#f4a8c4;">"Saba, someone has been loving you in silence..."</span>;
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     S2 — WHO SHE IS
+═══════════════════════════════════ -->
+<section class="screen" id="s2">
+  <span class="moon-icon">🌙</span>
+  <h1 class="main-title">Saba...</h1>
+  <p class="subtitle">The girl who became my favourite reason to reach the bus stand early.</p>
+
+  <div class="divider"><div class="divider-line"></div><span style="font-size:18px;">🌸</span><div class="divider-line"></div></div>
+
+  <div class="card">
+    <div class="sec-lbl">What I notice in you — every single day</div>
+    <div class="attr-grid">
+      <div class="attr"><div class="emoji">✨</div><div class="lbl">Gorgeous Eyes</div></div>
+      <div class="attr"><div class="emoji">💎</div><div class="lbl">Nose Pin Beauty</div></div>
+      <div class="attr"><div class="emoji">🌹</div><div class="lbl">Magical Smile</div></div>
+      <div class="attr"><div class="emoji">🎵</div><div class="lbl">Melodious Voice</div></div>
+      <div class="attr"><div class="emoji">🌟</div><div class="lbl">Pure Noor</div></div>
+      <div class="attr"><div class="emoji">💍</div><div class="lbl">Timeless Grace</div></div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <p class="quote-text">
+      Behind your niqab hides a beauty beyond compare —<br>
+      one glimpse of it changed my entire world.<br><br>
+      Even your name, <span class="gold">Saba</span>, feels like a gentle morning breeze —<br>
+      the kind that finds its way into your heart<br>
+      and quietly decides to stay there, forever.
+    </p>
+  </div>
+
+  <div class="progress"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <button class="btn-next" onclick="goTo('s3')">Continue reading... 💫</button>
+</section>
+
+<!-- ═══════════════════════════════════
+     S3 — THE CONFESSION
+═══════════════════════════════════ -->
+<section class="screen" id="s3">
+
+  <div class="card">
+    <div class="sec-lbl">💻 A confession — from an IT engineer 💻</div>
+    <div class="code-line">
+      <span style="color:#f9d064;">if</span> (myHeart.<span style="color:#f4a8c4;">isEmpty</span>()) {<br>
+      &nbsp;&nbsp;myHeart.<span style="color:#7fff80;">fill</span>(<span style="color:#f9d064;">"Saba"</span>);<br>
+      } <span style="color:#f9d064;">else</span> {<br>
+      &nbsp;&nbsp;console.log(<span style="color:#f4a8c4;">"Already full — of Saba 💛"</span>);<br>
+      }<br>
+      <span style="color:#444;">// error: Saba is read-only in my heart. Cannot overwrite. ❤️</span>
+    </div>
+    <p class="dance" style="font-size:18px;color:rgba(254,243,199,.85);line-height:2.1;margin-top:16px;">
+      I debug code all day. I solve algorithms. I build systems.<br>
+      But Saba — <span class="gold" style="font-style:italic;">you are the one beautiful exception</span><br>
+      in my logic that I never, ever want to handle.
+    </p>
+  </div>
+
+  <div class="quote-block">
+    <p class="quote-text">
+      The universe lives in your eyes, Saba —<br>
+      love itself hides within your voice.<br><br>
+      Every single day I go to that bus stand —<br>
+      not for the bus —<br>
+      <span class="gold">but for one glimpse of you.</span>
+    </p>
+  </div>
+
+  <div class="card card-rose">
+    <p class="dance" style="font-size:20px;color:#f4a8c4;line-height:2.1;">
+      "Every morning I unlock my phone and check for notifications —<br>
+      but honestly, the only notification<br>
+      I truly live for is<br>
+      <span class="gold">you, appearing at that bus stand."</span>
+    </p>
+  </div>
+
+  <div class="progress"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <button class="btn-next" onclick="goTo('s4')">There's more... 🌹</button>
+</section>
+
+<!-- ═══════════════════════════════════
+     S4 — FUN QUIZ
+═══════════════════════════════════ -->
+<section class="screen" id="s4">
+  <div id="quiz-container"></div>
+</section>
+
+<!-- ═══════════════════════════════════
+     S5 — THE REAL PROPOSAL
+═══════════════════════════════════ -->
+<section class="screen" id="s5">
+  <span class="ring-icon">💍</span>
+  <h1 class="final-title">Saba, I have to tell you something.</h1>
+
+  <div class="card">
+    <p class="final-text">
+      I am just a simple IT engineer who sees you every day at the bus stand.<br><br>
+      I don't know if you've ever noticed me. But I have noticed
+      <em>everything</em> about you —<br>
+      your eyes that carry entire galaxies,<br>
+      your smile that brightens a whole street,<br>
+      your voice that sounds like a du'a being answered.<br><br>
+      <span class="gold" style="font-weight:600;font-size:1.05em;line-height:2.2;">
+        Behind your niqab, I see noor.<br>
+        In your nose pin, I see elegance.<br>
+        In your ring, I see grace.<br>
+        In your smile — Saba — I see my home.
+      </span>
+    </p>
+  </div>
+
+  <div class="quote-block">
+    <p class="quote-text">
+      Perhaps fate wrote our meeting into the stars —<br>
+      and this bus stand was always meant<br>
+      to bring us together.<br><br>
+      <span class="gold">Give me one chance —</span><br>
+      and I will spend every day after that<br>
+      showing you what love truly looks like.
+    </p>
+  </div>
+
+  <div class="card card-rose">
+    <p class="final-text" style="font-size:clamp(15px,3vw,18px);">
+      I want to be the person who makes you smile on the hardest of days.<br>
+      The one who respects you, protects you, and walks beside you —<br>
+      through absolutely everything.<br><br>
+      Not just someone in your life —<br>
+      but a <span class="gold">life partner</span>, if you'll allow me.<br><br>
+      <span class="dance" style="font-size:23px;color:#f4a8c4;">
+        Will you give this engineer a chance to write our story, Saba?
+      </span>
+    </p>
+  </div>
+
+  <div class="puppy-strip">🐶 💕 🐾 💕 🐶</div>
+  <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+  <button class="btn-next" onclick="goTo('s-final')" style="margin-top:6px;">The final question... 💌</button>
+</section>
+
+<!-- ═══════════════════════════════════
+     S-FINAL — THE BIG QUESTION
+═══════════════════════════════════ -->
+<section class="screen" id="s-final">
+  <div style="position:relative;z-index:3;width:100%;text-align:center;max-width:660px;margin:0 auto;">
+    <span style="font-size:56px;display:block;margin-bottom:8px;animation:moonSway 4s ease-in-out infinite alternate;">🌙</span>
+    <h1 class="final-title" style="font-size:clamp(34px,8vw,58px);margin-bottom:8px;">Saba...</h1>
+    <p class="dance" style="font-size:21px;color:rgba(244,168,196,.7);margin-bottom:28px;">
+      This is the most important question I have ever asked anyone.
+    </p>
+
+    <div class="quote-block" style="margin-bottom:22px;">
+      <p class="quote-text" style="font-style:normal;">
+        Become mine, Saba — that is all I ask.<br>
+        My whole world will be complete<br>
+        with just your yes.
+      </p>
+    </div>
+
+    <div class="card" style="padding:28px;margin-bottom:28px;">
+      <p class="dance" style="font-size:clamp(22px,5.5vw,34px);color:#f9d064;line-height:1.75;">
+        Saba, will you be my girlfriend<br>
+        and <em>insha'Allah</em>, my life partner? 💍
+      </p>
+    </div>
+
+    <div class="options" id="final-options" style="margin-top:18px;">
+      <button class="opt-btn yes-opt" onclick="saidYes()">💖 Yes, I will! 💖</button>
+      <button class="opt-btn no-opt" id="no-btn" onmouseover="runAway()" ontouchstart="runAway(event)">😶 No...</button>
+    </div>
+
+    <p class="dance" id="no-msg" style="font-size:15px;color:rgba(244,168,196,.6);margin-top:20px;min-height:24px;"></p>
+
+    <div class="code-line" style="margin-top:26px;">
+      <span style="color:#f9d064;">while</span> (saba.answer !== <span style="color:#f4a8c4;">"yes"</span>) {<br>
+      &nbsp;&nbsp;myHeart.<span style="color:#7fff80;">keepLoving</span>(saba); &nbsp;<span style="color:#3a3a3a;">// infinite loop 💛</span><br>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     S-YES — CELEBRATION
+═══════════════════════════════════ -->
+<section class="screen" id="s-yes">
+  <h1 class="celeb-title">She Said YES!! 🎉</h1>
+  <div style="font-size:44px;margin:10px 0;letter-spacing:8px;">🎊 💖 🥳 💍 🎊</div>
+  <h2 class="dance" style="font-size:34px;color:#f4a8c4;margin:10px 0 22px;">Saba + Me = 🌟</h2>
+
+  <div class="card">
+    <p class="final-text">
+      Saba — <span class="gold">Alhamdulillah.</span><br><br>
+      You have made me the happiest person in this entire universe today.<br><br>
+      I promise to be your best friend first,<br>
+      your partner always,<br>
+      and to love you the way you truly deserve —<br>
+      with care, with respect, with patience,<br>
+      and with a completely whole heart.<br><br>
+      <span class="dance" style="font-size:24px;color:#f4a8c4;">
+        Tumhara hona — meri zindagi ka sabse khoobsurat lamha hai. 💛
+      </span>
+    </p>
+  </div>
+
+  <div class="quote-block">
+    <p class="quote-text" style="font-style:normal;">
+      When you said yes, Saba —<br>
+      the whole world lit up.<br><br>
+      A new spring bloomed inside my heart.<br>
+      Your love is my greatest blessing of all —<br>
+      <span class="gold">and together, we shall write a beautiful new story.</span>
+    </p>
+  </div>
+
+  <div class="heart-row">💖 🌙 ✨ 🌸 💍 🌸 ✨ 🌙 💖</div>
+  <p class="dance" style="font-size:17px;color:rgba(244,168,196,.45);margin-top:16px;padding-bottom:20px;">
+    — Written with all his love, your IT engineer 💻❤️
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════ -->
+<script>
+/* ── Password ── */
+const PW = 'saba';
+let pwVal = '';
+
+function renderDots(){
+  const container = document.getElementById('pw-dots');
+  const len = PW.length;
+  container.innerHTML = '';
+  for(let i=0;i<len;i++){
+    const d = document.createElement('div');
+    d.className = 'pw-dot' + (i < pwVal.length ? ' filled' : '');
+    container.appendChild(d);
+  }
+}
+renderDots();
+
+function onPwType(){
+  pwVal = document.getElementById('pw-input').value.toLowerCase().trim();
+  renderDots();
+  const err = document.getElementById('pw-error');
+  err.style.opacity = '0';
+}
+
+function checkPw(){
+  pwVal = document.getElementById('pw-input').value.toLowerCase().trim();
+  if(pwVal === PW){
+    // Success — sparkle then go
+    const box = document.querySelector('.pw-box');
+    box.style.transition = 'transform .5s ease, opacity .5s ease';
+    box.style.transform = 'scale(1.05)';
+    box.style.boxShadow = '0 0 80px rgba(249,208,100,.8)';
+    setTimeout(()=>{
+      box.style.opacity='0';
+      box.style.transform='scale(1.15)';
+    },300);
+    setTimeout(()=>goTo('s1'), 850);
+  } else {
+    const err = document.getElementById('pw-error');
+    err.textContent = pwVal.length === 0
+      ? 'Please enter the password 🌙'
+      : 'Hmm... that\'s not quite right. Think carefully! 💛';
+    err.style.opacity = '1';
+    err.style.animation = 'none';
+    requestAnimationFrame(()=>{ err.style.animation = 'shake .4s ease'; });
+    document.getElementById('pw-input').value = '';
+    pwVal = '';
+    renderDots();
+  }
+}
+
+/* ── Navigation ── */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  requestAnimationFrame(()=>el.classList.add('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='s4') startQuiz();
+}
+
+/* ── Envelope ── */
+function openEnvelope(){
+  const wrap = document.querySelector('.envelope-wrap');
+  wrap.style.transition = 'transform .5s ease, opacity .5s ease';
+  wrap.style.transform = 'scale(1.3) rotate(8deg)';
+  wrap.style.opacity = '0';
+  setTimeout(()=>goTo('s2'), 560);
+}
+
+/* ── Stars ── */
+const canvas = document.getElementById('star-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function initStars(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({length:160},()=>({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*1.7+.3,
+    a: Math.random()*Math.PI*2,
+    sp: Math.random()*.008+.003,
+    col: Math.random()<.15 ? 'rgba(244,168,196,' : 'rgba(255,255,255,'
+  }));
+}
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s=>{
+    s.a += s.sp;
+    const alpha = .12 + .88*Math.abs(Math.sin(s.a));
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle = s.col+alpha+')';
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+initStars(); drawStars();
+window.addEventListener('resize',initStars);
+
+/* ── Floating hearts ── */
+const hLayer = document.getElementById('hearts-layer');
+const hemojis = ['❤️','💖','💗','💕','🌹','✨','💫','🌸','💛','🌙','🫶'];
+function spawnHeart(big){
+  const h = document.createElement('div');
+  h.className = 'fheart';
+  h.textContent = hemojis[Math.floor(Math.random()*hemojis.length)];
+  h.style.left = (Math.random()*88+6)+'%';
+  h.style.bottom = '0';
+  const dur = big ? (3+Math.random()*2) : (5+Math.random()*5);
+  h.style.animationDuration = dur+'s';
+  h.style.fontSize = (big ? (24+Math.random()*22) : (13+Math.random()*13))+'px';
+  hLayer.appendChild(h);
+  setTimeout(()=>h.remove(), dur*1000+400);
+}
+setInterval(spawnHeart, 900);
+for(let i=0;i<12;i++) setTimeout(()=>spawnHeart(false), i*200);
+
+/* ── Quiz ── */
+const questions = [
+  {
+    q:"Saba, every time you smile — what do you think actually happens in the universe?",
+    opts:[
+      {txt:"💫 Angels pause to take notes on how to smile better",yes:true},
+      {txt:"🌸 Every flower secretly gets jealous of you",yes:true},
+      {txt:"😐 Nothing really — it's just a normal smile",yes:false,
+       funny:"Saba! The sun just called. It completely disagrees. Try again! ☀️"}
+    ]
+  },
+  {
+    q:"If the universe gave one award for the most beautiful voice — who wins it?",
+    opts:[
+      {txt:"🎵 Obviously me... maybe 😊",yes:true},
+      {txt:"✨ I feel like someone thinks it's me?",yes:true},
+      {txt:"🎤 Some random singer, I guess",yes:false,
+       funny:"That 'random singer' just texted — they said it's YOU, Saba! 🏆 Try once more!"}
+    ]
+  },
+  {
+    q:"A guy reaches the bus stand 10 minutes early every single day — for one person. Who?",
+    opts:[
+      {txt:"💖 Someone he is completely, deeply in love with",yes:true},
+      {txt:"🙈 Wait — is that someone... me? 😳",yes:true},
+      {txt:"🤔 Maybe he just really loves buses?",yes:false,
+       funny:"Saba, he has zero interest in buses. Only you. 😄 One more!"}
+    ]
+  },
+  {
+    q:"Last one — what is the single most beautiful thing about you, Saba?",
+    opts:[
+      {txt:"👁️ My eyes and the way they express everything",yes:true},
+      {txt:"😊 My smile — obviously",yes:true},
+      {txt:"🤷 Honestly? Nothing that special...",yes:false,
+       funny:"SABA. Your future partner officially rejects this answer. EVERYTHING about you is breathtaking. Try again! 💛"}
+    ]
+  }
+];
+let qIdx = 0;
+function startQuiz(){ qIdx=0; renderQuestion(); }
+function renderQuestion(){
+  const c = document.getElementById('quiz-container');
+  if(qIdx >= questions.length){ goTo('s5'); return; }
+  const q = questions[qIdx];
+  c.innerHTML = `
+  <div style="max-width:640px;margin:0 auto;padding:0 14px;">
+    <p class="dance" style="font-size:13px;color:rgba(249,208,100,.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;">✨ A little question for Saba ✨</p>
+    <p style="font-family:'Dancing Script',cursive;font-size:15px;color:rgba(249,208,100,.4);margin-bottom:16px;">Question ${qIdx+1} of ${questions.length}</p>
+    <p class="question-text">${q.q}</p>
+    <div class="options">${q.opts.map((o,i)=>`<button class="opt-btn" onclick="answerQ(${i})">${o.txt}</button>`).join('')}</div>
+    <p id="q-msg" class="dance" style="font-size:15px;color:#f4a8c4;margin-top:18px;min-height:26px;"></p>
+  </div>`;
+}
+function answerQ(i){
+  const q = questions[qIdx];
+  const opt = q.opts[i];
+  if(opt.yes){
+    qIdx++;
+    setTimeout(renderQuestion, 380);
+  } else {
+    document.getElementById('q-msg').textContent = opt.funny;
+    const btns = document.querySelectorAll('#quiz-container .opt-btn');
+    btns[i].style.borderColor = '#ff6b6b';
+    btns[i].style.color = '#ff7070';
+    setTimeout(()=>{
+      if(btns[i]){ btns[i].style.borderColor=''; btns[i].style.color=''; }
+      const m = document.getElementById('q-msg');
+      if(m) m.textContent = '';
+    }, 2400);
+  }
+}
+
+/* ── No button running away ── */
+let noCount = 0;
+const noMsgs = [
+  "Saba! Even the NO button refuses to stay! 😄",
+  "The NO button has packed its bags and left! 💛",
+  "Error 404 — 'No' not found. Only YES exists here! 💖",
+  "Saba, 'No' just filed for permanent relocation 🏃‍♀️",
+  "Tumhara dil keh raha hai haan — sun lo! 🌹",
+  "NO button is now in witness protection 😂",
+  "It keeps running because it already knows your answer! 💍"
+];
+function runAway(e){
+  if(e) e.preventDefault();
+  const btn = document.getElementById('no-btn');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const rect = btn.getBoundingClientRect();
+  let nx = rect.left + (Math.random()*320-160);
+  let ny = rect.top  + (Math.random()*220-110);
+  nx = Math.max(10, Math.min(nx, vw-180));
+  ny = Math.max(10, Math.min(ny, vh-70));
+  btn.style.position = 'fixed';
+  btn.style.left = nx+'px';
+  btn.style.top  = ny+'px';
+  btn.style.zIndex = '1000';
+  btn.style.transition = 'left .28s cubic-bezier(.25,.46,.45,.94), top .28s cubic-bezier(.25,.46,.45,.94)';
+  noCount++;
+  const msg = document.getElementById('no-msg');
+  if(msg) msg.textContent = noMsgs[Math.min(noCount-1, noMsgs.length-1)];
+}
+
+/* ── YES! ── */
+function saidYes(){
+  goTo('s-yes');
+  for(let i=0;i<40;i++) setTimeout(()=>spawnHeart(true), i*90);
+  const extras = ['🎉','🎊','💖','✨','🌹','💍','🥳','⭐'];
+  for(let i=0;i<22;i++){
+    setTimeout(()=>{
+      const c = document.createElement('div');
+      c.className = 'fheart';
+      c.textContent = extras[Math.floor(Math.random()*extras.length)];
+      c.style.left = (Math.random()*88+6)+'%';
+      c.style.bottom = '0';
+      c.style.animationDuration = (2.5+Math.random()*2)+'s';
+      c.style.fontSize = (24+Math.random()*26)+'px';
+      hLayer.appendChild(c);
+      setTimeout(()=>c.remove(), 6000);
+    }, i*140);
+  }
+}
+</script>
+</body>
+</html>
